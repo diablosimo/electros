@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="612.0" prefWidth="874.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.dashboardStockManagerController">
+   <children>
+      <Pane prefHeight="101.0" prefWidth="874.0" styleClass="head-background" stylesheets="@style.css">
+         <children>
+            <Label layoutX="158.0" layoutY="34.0" text="Espace Stock">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="108.0" fitWidth="139.0" layoutX="50.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/user.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="821.0" layoutY="73.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
+         </children>
+      </Pane>
+      <VBox layoutY="187.0" prefHeight="185.0" prefWidth="193.0" style="-fx-background-color: white;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#gotoDashboard" prefHeight="46.0" prefWidth="197.0" styleClass="dark-blue" stylesheets="@style.css" text="Acceuil" />
+            <Button mnemonicParsing="false" onAction="#gotoAddElectromenagerView" prefHeight="46.0" prefWidth="193.0" styleClass="dark-blue" stylesheets="@style.css" text="Ajouter/modifier Produit" />
+            <Button mnemonicParsing="false" onAction="#gotoSearchElectromenagerView" prefHeight="46.0" prefWidth="193.0" styleClass="dark-blue" stylesheets="@style.css" text="Rechercher Produit" />
+            <Button mnemonicParsing="false" onAction="#gotoListReptureView" prefHeight="46.0" prefWidth="193.0" styleClass="dark-blue" stylesheets="@style.css" text="Liste Rupture" />
+         </children>
+      </VBox>
+      <Label layoutX="152.0" layoutY="108.0" text="Produit en alerte">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="221.0" layoutY="187.0" prefHeight="200.0" prefWidth="617.0">
+         <columns>
+            <TableColumn fx:id="col_ref" prefWidth="85.0" text="reference" />
+            <TableColumn fx:id="col_lib" prefWidth="114.0" text="libelle" />
+            <TableColumn fx:id="col_pv" prefWidth="65.0" text="prix_vente" />
+            <TableColumn fx:id="col_pa" prefWidth="65.0" text="prix_achat" />
+            <TableColumn fx:id="col_qte" prefWidth="53.0" text="quantite" />
+            <TableColumn fx:id="col_desc" prefWidth="234.0" text="description" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

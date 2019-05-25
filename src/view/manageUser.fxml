@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="550.0" prefWidth="825.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UtilisateurController">
+   <children>
+      <Pane layoutY="-4.0" prefHeight="120.0" prefWidth="874.0" styleClass="head-background" stylesheets="@style.css">
+         <children>
+            <Label layoutX="158.0" layoutY="34.0" text="Espace Admin">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="user" layoutX="193.0" layoutY="69.0" text="...">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="821.0" layoutY="92.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
+         </children>
+      </Pane>
+      <VBox layoutX="-6.0" layoutY="181.0" prefHeight="165.0" prefWidth="193.0" style="-fx-background-color: white;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#gotoDashboard" prefHeight="46.0" prefWidth="197.0" styleClass="dark-blue" stylesheets="@style.css" text="Acceuil" />
+            <Button mnemonicParsing="false" onAction="#gotoManageUser" prefHeight="46.0" prefWidth="193.0" styleClass="dark-blue" stylesheets="@style.css" text="Gestion utilisateur" />
+         </children>
+      </VBox>
+      <ImageView fitHeight="108.0" fitWidth="139.0" layoutX="43.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/user.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="208.0" layoutY="125.0" prefHeight="401.0" prefWidth="312.0">
+         <children>
+            <Label layoutX="5.0" layoutY="6.0" text="Login" />
+            <TextField fx:id="login" layoutX="5.0" layoutY="23.0" prefHeight="25.0" prefWidth="150.0" styleClass="text-field" stylesheets="@style.css" />
+            <Label layoutX="5.0" layoutY="62.0" text="Mot de passe" />
+            <PasswordField fx:id="password" layoutX="3.0" layoutY="79.0" prefHeight="25.0" prefWidth="157.0" stylesheets="@style.css" />
+            <TextField fx:id="nom" layoutX="5.0" layoutY="132.0" prefHeight="25.0" prefWidth="150.0" styleClass="text-field" stylesheets="@style.css" />
+            <Label layoutX="5.0" layoutY="115.0" text="Nom" />
+            <TextField fx:id="prenom" layoutX="9.0" layoutY="191.0" prefHeight="25.0" prefWidth="150.0" styleClass="text-field" stylesheets="@style.css" />
+            <Label layoutX="12.0" layoutY="234.0" text="Statut" />
+            <ComboBox fx:id="statut" layoutX="9.0" layoutY="251.0" prefHeight="25.0" prefWidth="150.0" styleClass="text-field" stylesheets="@style.css" />
+            <Label layoutX="9.0" layoutY="174.0" text="Prenom" />
+            <Button layoutX="76.0" layoutY="350.0" mnemonicParsing="false" onAction="#modifyUser" prefHeight="25.0" prefWidth="71.0" stylesheets="@style.css" text="Modifier" />
+            <Button layoutX="240.0" layoutY="350.0" mnemonicParsing="false" onAction="#clear" text="Annuler" />
+            <Button layoutX="8.0" layoutY="350.0" mnemonicParsing="false" onAction="#addUser" prefHeight="25.0" prefWidth="57.0" text="Ajouter" />
+            <Button layoutX="157.0" layoutY="350.0" mnemonicParsing="false" onAction="#search" stylesheets="@style.css" text="Rechercher" />
+            <RadioButton fx:id="tous" layoutX="12.0" layoutY="298.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" selected="true" text="tous">
+               <toggleGroup>
+                  <ToggleGroup fx:id="actif" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="nonActif" layoutX="76.0" layoutY="298.0" mnemonicParsing="false" text="Non Actif" toggleGroup="$actif" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableView" layoutX="413.0" layoutY="154.0" onMousePressed="#getSelected" prefHeight="290.0" prefWidth="426.0">
+         <columns>
+            <TableColumn fx:id="col_nom" prefWidth="99.0" text="Nom" />
+            <TableColumn fx:id="col_prenom" prefWidth="105.0" text="Prenom" />
+            <TableColumn fx:id="col_login" minWidth="9.0" prefWidth="112.0" text="Login" />
+            <TableColumn fx:id="col_statut" minWidth="0.0" prefWidth="107.0" text="Statut" />
+         </columns>
+      </TableView>
+      <Button layoutX="774.0" layoutY="466.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Label layoutX="573.0" layoutY="463.0" prefHeight="35.0" prefWidth="201.0" text="Nb: la supression est authorisée seulement pour les agents non Actifs" wrapText="true" />
+   </children>
+</AnchorPane>
