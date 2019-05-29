@@ -52,7 +52,6 @@
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Client" />
             <Button layoutX="3.0" layoutY="264.0" mnemonicParsing="false" onAction="#addLigneCommande" text="Ajouter" />
-            <Button layoutX="68.0" layoutY="264.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="72.0" text="Annuler" />
             <ComboBox fx:id="client" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="108.0" styleClass="text-field" stylesheets="@style.css" />
             <Label layoutX="15.0" layoutY="173.0" text="Electromenager" />
             <Label layoutX="17.0" layoutY="69.0" text="Categorie" />
@@ -74,9 +73,13 @@
               </columns>
             </TableView>
             <Button layoutY="312.0" mnemonicParsing="false" onAction="#saveCommande" text="Enregistrer" />
-            <Button layoutX="86.0" layoutY="312.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="72.0" text="vider" />
+            <Button layoutX="86.0" layoutY="312.0" mnemonicParsing="false" onAction="#clear1" prefHeight="25.0" prefWidth="72.0" text="vider" />
             <Label layoutX="9.0" layoutY="278.0" prefHeight="17.0" prefWidth="63.0" text="Prix total : " />
-            <Label fx:id="montantTotal" layoutX="72.0" layoutY="278.0" prefHeight="17.0" prefWidth="46.0" text="...." />
+            <Label fx:id="montantTotal" layoutX="67.0" layoutY="273.0" prefHeight="27.0" prefWidth="137.0" text="0">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Label fx:id="statut" layoutX="211.0" layoutY="493.0" prefHeight="17.0" prefWidth="46.0" textFill="#e81818" />

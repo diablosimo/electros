@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sample.Main;
 import service.ClientService;
+import util.AlertUtil;
 import util.Session;
 
 import java.io.IOException;
@@ -43,14 +44,20 @@ public class ClientController implements Initializable {
     void addClient(ActionEvent event)throws SQLException {
         try {
             clientService.insert(nom.getText(),prenom.getText(),email.getText(),numTel.getText(),adresse.getText());
+            AlertUtil.showAddAlert();
         }catch (Exception e){
+            AlertUtil.showAddError(e.getMessage());
             System.err.println(e.getMessage());
         }
     }
 
     @FXML
     void clear(ActionEvent event) {
-
+        nom.setText("");
+        prenom.setText("");
+        email.setText("");
+        numTel.setText("");
+        adresse.setText("");
     }
 
     @FXML

@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import sample.Main;
 import service.UtilisateurService;
+import util.AlertUtil;
 import util.Session;
 
 import java.io.IOException;
@@ -85,25 +86,54 @@ public class UtilisateurController implements Initializable {
     }
 
     @FXML
-    void addUser(ActionEvent event) throws SQLException {
-        utilisateurService.insert(nom.getText(),prenom.getText(),login.getText(),password.getText(),statut.getValue());
-    }
+    void addUser(ActionEvent event) throws SQLException,Exception {
+        try {
+            utilisateurService.insert(nom.getText(), prenom.getText(), login.getText(), password.getText(), statut.getValue());
+            AlertUtil.showAddAlert();
+        }catch (SQLException e){
+            AlertUtil.showAddError(e.getMessage());
+        }catch(Exception e){
+            AlertUtil.showAddError(e.getMessage());
+        }
+        }
 
     @FXML
     void clear(ActionEvent event) {
+        login.setText("");
+        nom.setText("");
+        statut.setValue("");
+        prenom.setText("");
+        password.setText("");
+        tous.setSelected(true);
+        tableView.setItems(null);
 
     }
 
     @FXML
     void delete(ActionEvent event) throws SQLException {
-        if(utilisateur.getId()!=null)
-        utilisateurService.delete(utilisateur.getId());
-        tableView.getItems().removeAll(utilisateur);
+        try {
+            if(utilisateur.getId()!=null){
+                utilisateurService.delete(utilisateur.getId());
+            AlertUtil.showDelete();
+            }
+
+        }catch (SQLException e){
+            AlertUtil.showDeleteError(e.getMessage());
+            tableView.setItems(FXCollections.observableArrayList(utilisateurs));
+        }
+
     }
 
     @FXML
-    void modifyUser(ActionEvent event) throws SQLException {
-        utilisateurService.update(nom.getText(),prenom.getText(),login.getText(),password.getText(),statut.getValue());
+    void modifyUser(ActionEvent event) throws SQLException,Exception {
+        try{
+            utilisateurService.update(nom.getText(),prenom.getText(),login.getText(),password.getText(),statut.getValue());
+            AlertUtil.showUpdateAlert();
+        }catch (SQLException e){
+            AlertUtil.showUpdateError(e.getMessage());
+        }catch (Exception e){
+            AlertUtil.showUpdateError(e.getMessage());
+        }
     }
 
     @FXML
@@ -165,7 +195,7 @@ public class UtilisateurController implements Initializable {
     }
 
     public void initStatut(){
-        statut.setItems(FXCollections.observableArrayList(new String[]{"administrateur","agent commercial","caissier","responsable stock"}));
+        statut.setItems(FXCollections.observableArrayList(new String[]{"","administrateur","agent commercial","caissier","responsable stock"}));
     }
 
 

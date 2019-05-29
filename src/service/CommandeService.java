@@ -83,4 +83,15 @@ public class CommandeService {
         }
 
     }
+
+    public void deleteCommande(Commande commande) throws SQLException {
+        if (commande!=null && commande.getId()!=null){
+            Connection connection = null;
+            CallableStatement cs = null;
+            connection= Connexion.getConnection();
+            cs = connection.prepareCall("{call deleteCommande(?)}");
+            cs.setLong(1,commande.getId());
+            cs.execute();
+        }
+    }
 }

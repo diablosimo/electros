@@ -19,6 +19,7 @@ import service.CategorieService;
 import service.ElectromenagerService;
 import service.FournisseurService;
 import service.SousCategorieService;
+import util.AlertUtil;
 import util.Session;
 
 import javax.print.attribute.standard.DialogTypeSelection;
@@ -88,6 +89,9 @@ public class dashboardStockManagerController implements Initializable {
     @FXML
     private TableView<Electromenager > tableView=new TableView<Electromenager>();
     @FXML
+    private TableView<Electromenager > tableView1=new TableView<Electromenager>();
+
+    @FXML
     private TableColumn<Electromenager, String> col_ref=new TableColumn<>();
     @FXML
     private TableColumn<Electromenager, String> col_lib=new TableColumn<>();
@@ -99,8 +103,20 @@ public class dashboardStockManagerController implements Initializable {
     private TableColumn<Electromenager, String> col_qte=new TableColumn<>();
     @FXML
     private TableColumn<Electromenager, String> col_desc=new TableColumn<>();
-    private List<Electromenager> list=new ArrayList();
 
+    @FXML
+    private TableColumn<Electromenager, String> col_ref_1=new TableColumn<>();
+    @FXML
+    private TableColumn<Electromenager, String> col_lib_1=new TableColumn<>();
+    @FXML
+    private TableColumn<Electromenager, String> col_pv_1=new TableColumn<>();
+    @FXML
+    private TableColumn<Electromenager, String> col_pa_1=new TableColumn<>();
+    @FXML
+    private TableColumn<Electromenager, String> col_qte_1=new TableColumn<>();
+    @FXML
+    private TableColumn<Electromenager, String> col_desc_1=new TableColumn<>();
+    private List<Electromenager> list=new ArrayList();
 
 
     public void initTable(){
@@ -112,6 +128,14 @@ public class dashboardStockManagerController implements Initializable {
         col_desc.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
+    public void initTable1(){
+        col_ref_1.setCellValueFactory(new PropertyValueFactory<>("reference"));
+        col_lib_1.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        col_pv_1.setCellValueFactory(new PropertyValueFactory<>("prixVente"));
+        col_pa_1.setCellValueFactory(new PropertyValueFactory<>("prixAchat"));
+        col_qte_1.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        col_desc_1.setCellValueFactory(new PropertyValueFactory<>("description"));
+    }
     ///////////////////////////////////////////////////////
 
 
@@ -129,17 +153,42 @@ public class dashboardStockManagerController implements Initializable {
     void addElectromenager(ActionEvent event) throws SQLException,Exception {
         try {
             electromenagerService.insert(getParams(), sousCategorie.getValue().getNom(), fournisseur.getValue().getNom());
-            statut.setText("success");
-        }catch (Exception e){
-            statut.setText("error");
+            AlertUtil.showAddAlert();
+        }catch (SQLException e){
+            AlertUtil.showAddError(e.getMessage());
             System.err.println(e.getMessage());
+        }catch (Exception ex){
+            AlertUtil.showAddError(ex.getMessage());
         }
     }
 
     @FXML
     void clear(ActionEvent event) {
-
+        reference.setText("");
+        libelle.setText("");
+        description.setText("");
+        sousCategorie.setItems(null);
+        pVenteMin.setText("");
+        pVenteMax.setText("");
+        pAchatMin.setText("");
+        pAchatMax.setText("");
+        qteMin.setText("");
+        qteMax.setText("");
+        tableView.setItems(null);
     }
+
+    @FXML
+    void clear1(ActionEvent event) {
+        reference.setText("");
+        libelle.setText("");
+        description.setText("");
+        sousCategorie.setItems(null);
+        pVente.setText("");
+        pAchat.setText("");
+        qte.setText("");
+        tableView.setItems(null);
+    }
+
     @FXML
     void findByCriteria(ActionEvent event) throws SQLException {
         Long idCat,idF;
@@ -183,10 +232,13 @@ public class dashboardStockManagerController implements Initializable {
            electromenager.setFournisseurID(fournisseur.getValue().getId());
            electromenager.setSousCategorieId(sousCategorie.getValue().getId());
            electromenagerService.update(electromenager);
-           statut.setText("success");
-       }catch(Exception e){
+           AlertUtil.showUpdateAlert();
+       }catch (SQLException se){
+           AlertUtil.showUpdateError(se.getMessage());
+       }
+       catch(Exception e){
             System.out.println(e.getMessage());
-            statut.setText("error");
+           AlertUtil.showUpdateError(e.getMessage());
         }
     }
 
@@ -211,7 +263,7 @@ public class dashboardStockManagerController implements Initializable {
 
     @FXML
     void gotoListReptureView(ActionEvent event) throws IOException, SQLException {
-        tableView.setItems(FXCollections.observableArrayList(electromenagerService.findEnAlerte()));
+        System.out.println(":"+tableView1.getItems().size());
         Main.forward(event, "../view/ListReptureView.fxml", this.getClass());
 
     }
@@ -444,7 +496,9 @@ private String zeroIfEmpty(String s){
         try {
             loadCategorie();
             loadFournisseur();
+            initTable1();
             initTable();
+            tableView1.setItems(FXCollections.observableArrayList(electromenagerService.findEnAlerte()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

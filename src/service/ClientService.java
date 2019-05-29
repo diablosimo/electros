@@ -22,7 +22,6 @@ public class ClientService {
     public void insert(String nom,String prenom,String email,String tel,String adresse) throws SQLException {
         Connection connection = null;
         CallableStatement cs = null;
-        try {
             connection= Connexion.getConnection();
             cs = connection.prepareCall("{call insertClient(?,?,?,?,?)}");
             cs.setString(1, nom);
@@ -31,13 +30,10 @@ public class ClientService {
             cs.setString(4, tel);
             cs.setString(5, adresse);
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        } finally {
+
             if (cs != null) cs.close();
             if (connection != null) connection.close();
-        }
+
     }
 
     public List<Client> findAll() throws SQLException {

@@ -27,6 +27,11 @@
                </image>
             </ImageView>
             <Button layoutX="821.0" layoutY="73.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
+            <Label fx:id="user" layoutX="165.0" layoutY="64.0" text="...">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="239.0" layoutY="173.0" prefHeight="338.0" prefWidth="489.0">
@@ -41,13 +46,12 @@
             <Label layoutX="139.0" layoutY="72.0" text="Prix d'achat (DH)" />
             <TextField fx:id="qte" layoutX="253.0" layoutY="89.0" prefHeight="25.0" prefWidth="88.0" styleClass="text-field" stylesheets="@style.css" />
             <Label layoutX="253.0" layoutY="72.0" text="Quantité" />
-            <Button layoutX="350.0" layoutY="208.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="25.0" prefWidth="88.0" text="image" />
             <TextArea fx:id="description" layoutX="15.0" layoutY="197.0" prefHeight="46.0" prefWidth="318.0" styleClass="text-field" stylesheets="@style.css" />
             <Label layoutX="15.0" layoutY="180.0" text="Description" />
             <ImageView fx:id="img" fitHeight="131.0" fitWidth="135.0" layoutX="350.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
             <Button layoutX="49.0" layoutY="251.0" mnemonicParsing="false" onAction="#addElectromenager" text="Ajouter" />
             <Button layoutX="123.0" layoutY="251.0" mnemonicParsing="false" onAction="#updateElectromenager" text="Modifier" />
-            <Button layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#clear" prefWidth="55.0" text="Vider" />
+            <Button layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#clear1" prefWidth="55.0" text="Vider" />
             <Label layoutX="11.0" layoutY="127.0" text="Fournisseur" />
             <Label layoutX="136.0" layoutY="127.0" text="Categorie" />
             <Label layoutX="250.0" layoutY="127.0" text="Sous categorie" />

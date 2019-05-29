@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import sample.Main;
 import service.*;
+import util.AlertUtil;
 import util.DateUtil;
 import util.Session;
 
@@ -95,6 +96,7 @@ public class CommandeController implements Initializable {
 
     private Commande commande=new Commande();
     private List<CommandeItem> commandeItems=new ArrayList();
+    private List<Lc> lcs=new ArrayList();
     private List<Commande>commandes=new ArrayList<>();
 
     public ClientService clientService=new ClientService();
@@ -111,7 +113,7 @@ public class CommandeController implements Initializable {
         Date dateC;
         Integer etat=null;
         idClient=client.getValue()==null?null:client.getValue().getId();
-        dateC=dateCommande.getValue()==null?null: DateUtil.parse(dateCommande.getValue().toString());
+        dateC=dateCommande.getValue()==null?null:java.sql.Date.valueOf(dateCommande.getValue());
         if(isFacture.isSelected()) etat=1;
         else if(nonFacture.isSelected())etat=0;
         System.out.println(dateC);
@@ -123,13 +125,43 @@ public class CommandeController implements Initializable {
 
     @FXML
     void addLigneCommande(ActionEvent event) {
+        System.out.println("a");
         if(electromenager.getValue()!=null  && qte.getText()!=null){
+            System.out.println("b");
             if(electromenager.getValue().getQuantite()>new Integer(qte.getText())){
-                tableView.getItems().add(getParams());
-                System.out.println(getParams());
-                montantTotal.setText(new Double(montantTotal.getText())+getParams().getPrix()+"");
-                commandeItems.add(new CommandeItem(getParams().getQuantite(),electromenager.getValue().getId(),null));
+                System.out.println("c");
+                addLigneCommandeToList(new CommandeItem(getParams().getQuantite(),electromenager.getValue().getId(),null));
             }
+        }
+    }
+
+    void addLigneCommandeToList(CommandeItem commandeItem){
+        System.out.println(commandeItem.getElectromenagerID()+commandeItem.getQuantite());
+        int i=0;
+        for (CommandeItem c:commandeItems) {
+            System.out.println("e");
+            System.out.println(c.getElectromenagerID()+"="+commandeItem.getElectromenagerID());
+            if(c.getElectromenagerID()!=commandeItem.getElectromenagerID()) continue;
+            if (c.getElectromenagerID()==commandeItem.getElectromenagerID()){
+                System.out.println(i);
+                i=1;
+                break;
+            }break;
+
+        }
+        if(i==0){
+            System.out.println("f");
+            commandeItems.add(commandeItem);
+            lcs.add(getParams());
+            tableView.setItems(FXCollections.observableArrayList(lcs));
+            System.out.println(montantTotal.getText());
+            System.out.println(new Double(montantTotal.getText()));
+            System.out.println(getParams().getPrix());
+            System.out.println(new Double(montantTotal.getText())+getParams().getPrix()+"");
+            montantTotal.setText(new Double(montantTotal.getText())+getParams().getPrix()+"");
+        }else{
+            System.out.println("g");
+            AlertUtil.showAddError("produit existant dans la commande");
         }
     }
 
@@ -138,7 +170,6 @@ public class CommandeController implements Initializable {
     @FXML
     void findCommandeItems(MouseEvent event) throws SQLException {
         System.out.println("hani");
-
         if(tableViewCommande.getSelectionModel().getSelectedItem()!=null){
             Long idCommande=tableViewCommande.getSelectionModel().getSelectedItem().getId();
             tableViewLC.setItems(FXCollections.observableArrayList(commandeItemService.findByCommandeID(idCommande)));
@@ -146,7 +177,20 @@ public class CommandeController implements Initializable {
     }
 
     @FXML
-    void clear(ActionEvent event) {
+    void deleteCommande(ActionEvent event) throws SQLException,Exception {
+        try{
+            Commande selectedCommande=tableViewCommande.getSelectionModel().getSelectedItem();
+            commandeService.deleteCommande(selectedCommande);
+            commandeItems.clear();
+            commandes.clear();
+            tableViewCommande.setItems(null);
+            tableViewLC.setItems(null);
+            findCommande(event);
+        }catch(SQLException e){
+            AlertUtil.showDeleteError(e.getMessage());
+        }catch(NullPointerException e){
+            AlertUtil.showDeleteError("aucune commande n'est selectionnée");
+        }
 
     }
 
@@ -200,12 +244,20 @@ public class CommandeController implements Initializable {
             }
             try{
                 commandeService.insert(client.getValue().getId(),commandeItems);
-                gotoDashboard(event);
+                AlertUtil.showAddAlert();
             }catch (Exception e){
+                AlertUtil.showAddError(e.getMessage());
                 System.out.println(e.getMessage());
             }
 
         }
+    }
+    @FXML
+    void clear1(ActionEvent event){
+        tableView.setItems(null);
+        lcs=new ArrayList();
+        commandeItems=new ArrayList();
+
     }
 
     public Lc getParams(){

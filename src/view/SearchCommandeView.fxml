@@ -54,7 +54,6 @@
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Client" />
             <Button layoutX="14.0" layoutY="71.0" mnemonicParsing="false" onAction="#findCommande" text="Rechercher" />
-            <Button layoutX="95.0" layoutY="71.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="72.0" text="Annuler" />
             <Label fx:id="statut" layoutX="49.0" layoutY="295.0" prefHeight="17.0" prefWidth="46.0" textFill="#e81818" />
             <ComboBox fx:id="client" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="108.0" styleClass="text-field" stylesheets="@style.css" />
             <DatePicker fx:id="dateCommande" layoutX="132.0" layoutY="31.0" styleClass="text-field" stylesheets="@style.css" />
@@ -64,6 +63,7 @@
                   <ToggleGroup fx:id="state" />
                </toggleGroup></RadioButton>
             <RadioButton fx:id="nonFacture" layoutX="427.0" layoutY="35.0" mnemonicParsing="false" text="Non facturée" toggleGroup="$state" />
+            <Button layoutX="97.0" layoutY="71.0" mnemonicParsing="false" onAction="#deleteCommande" prefHeight="25.0" prefWidth="72.0" text="supprimer" />
          </children>
       </Pane>
       <TableView fx:id="tableViewCommande" layoutX="227.0" layoutY="293.0" onMousePressed="#findCommandeItems" prefHeight="239.0" prefWidth="265.0">

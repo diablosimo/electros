@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="612.0" prefWidth="874.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CommandeController">
+<AnchorPane prefHeight="612.0" prefWidth="874.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.dashboardStockManagerController">
    <children>
       <Pane prefHeight="101.0" prefWidth="874.0" styleClass="head-background" stylesheets="@style.css">
          <children>
@@ -29,6 +29,11 @@
                </image>
             </ImageView>
             <Button layoutX="821.0" layoutY="73.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
+            <Label fx:id="user" layoutX="170.0" layoutY="61.0" text="...">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="206.0" layoutY="154.0" prefHeight="245.0" prefWidth="617.0">

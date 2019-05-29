@@ -26,6 +26,16 @@ public class SearchUtil {
         }
         return "";
     }
+    public static String addConstraint( String atributeName, String operator, Object value) {
+        boolean condition = value != null;
+        if (value != null && value.getClass().getSimpleName().equals("String")) {
+            condition = condition && !value.equals("");
+        }
+        if (condition && !atributeName.equals("")) {
+            return " AND " + atributeName + " " + operator + " '" + value + "'";
+        }
+        return "";
+    }
 
     public static String addConstraintOr(String beanAbrev, String atributeName, String operator, Object value) {
         boolean condition = value != null;
@@ -73,6 +83,9 @@ public class SearchUtil {
 
     public static String addConstraintDate(String beanAbrev, String atributeName, String operator, Date value) {
         return addConstraint(beanAbrev, atributeName, operator, DateUtil.convertFormUtilToSql(value));
+    }
+    public static String addConstraintDate(String atributeName, String operator, Date value) {
+        return addConstraint(atributeName, operator, DateUtil.convertFormUtilToSql(value));
     }
 
     public static String addConstraintDateTimestamp(String beanAbrev, String atributeName, String operator, Date value) {

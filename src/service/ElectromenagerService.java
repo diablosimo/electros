@@ -18,10 +18,11 @@ import java.util.List;
  */
 public class ElectromenagerService {
 
-    public void insert(Electromenager electromenager,String categorie, String fournisseur) throws SQLException {
+    public int insert(Electromenager electromenager,String categorie, String fournisseur) throws SQLException {
+        int i=0;
         Connection connection = null;
         CallableStatement cs = null;
-        try {
+
             connection= Connexion.getConnection();
             cs = connection.prepareCall("{call insertElectromenager(?,?,?,?,?,?,?,?,?)}");
             cs.setString(1, electromenager.getReference());
@@ -34,20 +35,16 @@ public class ElectromenagerService {
             cs.setString(8,categorie);
             cs.setString(9, fournisseur);
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        } finally {
-            if (cs != null) cs.close();
-            if (connection != null) connection.close();
-        }
+
+        if (cs != null) cs.close();
+        if (connection != null) connection.close();
+      return 1;
     }
 
 
     public void update(Electromenager electromenager) throws SQLException {
         Connection connection = null;
         CallableStatement cs = null;
-        try {
             connection= Connexion.getConnection();
             cs = connection.prepareCall("{call updateElectromenager(?,?,?,?,?,?,?,?,?)}");
             cs.setString(1, electromenager.getReference());
@@ -60,14 +57,11 @@ public class ElectromenagerService {
             cs.setLong(8,electromenager.getSousCategorieId());
             cs.setLong(9, electromenager.getFournisseurID());
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        }
-        finally {
+
+
             if (cs != null) cs.close();
             if (connection != null) connection.close();
-        }
+
     }
 
     public List<Electromenager> findByCriteria(String reference,String libelle,String description,
@@ -135,7 +129,7 @@ public class ElectromenagerService {
                         rs.getDouble("PRIX_ACHAT"),rs.getInt("QUANTITE"));
                 list.add(electromenager);
             }
-
+            System.out.println(list.size());
             return list;
         }catch (Exception e) {
             System.err.println("Got an exception! ");
@@ -144,6 +138,7 @@ public class ElectromenagerService {
         finally {
             if (cs != null) cs.close();
             if (connection != null) connection.close();
+            System.out.println(list.size());
             return list;
         }
     }
@@ -153,7 +148,7 @@ public class ElectromenagerService {
         Connection connection = null;
         Statement cs = null;
         ResultSet rs=null;
-        String query="SELECT E.* FROM ELECTROMENAGER E,SOUSCATEGORIE S WHERE E.sousCategorie_id=S.id AND E.quantite>S.Seuilalert AND SOUSCATEGORIE_ID="+id;
+        String query="SELECT E.* FROM ELECTROMENAGER E WHERE E.quantite>0 AND SOUSCATEGORIE_ID="+id;
         try {
             connection = Connexion.getConnection();
             cs=connection.createStatement();
@@ -162,6 +157,7 @@ public class ElectromenagerService {
                 electromenagers.add(new Electromenager(rs.getLong("id"),rs.getString("REFERENCE"), rs.getString("LIBELLE"),
                         rs.getDouble("PRIX_VENTE"),rs.getInt("QUANTITE")));
             }
+            System.out.println("elec="+electromenagers.size());
             return electromenagers;
         }catch (Exception e) {
             System.err.println("Got an exception! ");

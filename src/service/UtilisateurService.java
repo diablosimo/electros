@@ -10,6 +10,7 @@ import bean.Electromenager;
 import bean.Lc;
 import bean.Utilisateur;
 import sample.Connexion;
+import util.AlertUtil;
 import util.HashageUtil;
 import util.Session;
 
@@ -74,7 +75,6 @@ public class UtilisateurService {
     public void insert(String nom,String prenom,String login,String password,String statut) throws SQLException {
         Connection connection = null;
         CallableStatement cs = null;
-        try {
             connection= Connexion.getConnection();
             cs = connection.prepareCall("{call insertUtilisateur(?,?,?,?,?)}");
             cs.setString(1, nom);
@@ -83,20 +83,15 @@ public class UtilisateurService {
             cs.setString(4, HashageUtil.sha256(password));
             cs.setString(5, statut);
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        } finally {
             if (cs != null) cs.close();
             if (connection != null) connection.close();
-        }
     }
 
     public void update(String nom,String prenom,String login,String password,String statut) throws SQLException {
         Connection connection = null;
         CallableStatement cs = null;
-        try {
             connection= Connexion.getConnection();
+            System.out.println(nom +" "+prenom +" "+login+" "+password+" "+statut);
             cs = connection.prepareCall("{call updateUtilisateur(?,?,?,?,?)}");
             cs.setString(1, nom);
             cs.setString(2, prenom);
@@ -104,14 +99,10 @@ public class UtilisateurService {
             cs.setString(4, HashageUtil.sha256(password));
             cs.setString(5, statut);
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        }
-        finally {
+
             if (cs != null) cs.close();
             if (connection != null) connection.close();
-        }
+
     }
 
     public List<Utilisateur> findByCriteria(String nom,String prenom,String login,String statut,int actif) throws SQLException {
@@ -154,19 +145,15 @@ public class UtilisateurService {
     public void delete(Long id) throws SQLException {
         Connection connection = null;
         CallableStatement cs = null;
-        try {
+
             connection= Connexion.getConnection();
             cs = connection.prepareCall("{call deleteUtilisateur(?)}");
             cs.setLong(1, id);
             cs.execute();
-        } catch (Exception e) {
-            System.err.println("Got an exception! ");
-            System.err.println(e.getMessage());
-        }
-        finally {
+
             if (cs != null) cs.close();
             if (connection != null) connection.close();
-        }
+
     }
 
 
